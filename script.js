@@ -1,3 +1,24 @@
+//Get nodelist of all buttons present
+let buttons =
+    document.querySelectorAll('button');
+//Create a variable for player choice to use in the future
+let playerSelection;
+//Iterate through all buttons, add event listeners for a click and
+//update playerSelection based on a button choice
+//Also invoke game function each time button is clicked
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (button.id === 'button1') {
+            playerSelection = 'rock';
+        } else if (button.id === 'button2') {
+            playerSelection = 'paper';
+        } else {
+            playerSelection = 'scissors';
+        }
+        game();
+    })
+});
+
 //Make computer choose from selected values
 //Create a function
 function getComputerChoice() {
@@ -18,29 +39,30 @@ function getComputerChoice() {
     }
 }
 //Create a function to play single round between computer and user
+//Functions decides who's a winner of current round and updates score
 function playRound(playerSelection, computerSelection) {
-    if (playerSelection === "rock") {
+    if (playerSelection === 'rock') {
         switch(computerSelection) {
             case "paper":
-                computerScore++;
+                computerPoints++;
                 return "You lose! Paper beats Rock";
                 break;
             case "scissors":
-                playerScore++;
+                playerPoints++
                 return "You win! Rock beats Scissors";
                 break;
 
             default:
                 return "Tie";
         }
-    } else if (playerSelection === "paper") {
+    } else if (playerSelection === 'paper') {
         switch(computerSelection) {
             case "rock":
-                playerScore++;
+                playerPoints++
                 return "You win! Paper beats Rock";
                 break;
             case "scissors":
-                computerScore++;
+                computerPoints++;
                 return "You lose! Scissors beat Paper"
                 break;
 
@@ -50,11 +72,11 @@ function playRound(playerSelection, computerSelection) {
     } else {
         switch(computerSelection) {
             case "rock":
-                computerScore++;
+                computerPoints++;
                 return "You lose! Rock beats Scissors"
                 break;
             case "paper":
-                playerScore++;
+                playerPoints++
                 return "You win! Scissors beat Paper"
                 break;
 
@@ -63,23 +85,38 @@ function playRound(playerSelection, computerSelection) {
         }
     }
 }
-//Declare variables for player and computer score
-let playerScore = 0;
-let computerScore = 0;
-//Loop over the game five times
+//Score tracker
+let playerPoints = 0;
+let computerPoints = 0;
 function game() {
-    //Make the user choose from the selected values
-    let playerInput = prompt("Please pick Rock, Paper, or Scissors: ");
-    //Convert to lowerCase for insensitivity
-    let playerSelection = playerInput.toLowerCase();
     //Get computer choice
     let computerSelection = getComputerChoice();
-    //Invoke playRound function and get results
-
-    const div = document.createElement('div')
-    div.setAttribute('style', 'background-color: pink; color: white;');
-    document.appendChild(div);
-    div.textContent = 'playRound(playerSelection, computerSelection)';
+    //Get container element
+    const container = document.querySelector('#container');
+    //Create and style new elements
+    const result = document.createElement('div');
+    const score = document.createElement('div');
+    result.setAttribute('style', 'background-color: #96badc; ' +
+        'color: black;');
+    score.setAttribute('style', 'background-color: #96badc; ' +
+        'color: black');
+    //Update new elements with game results
+    result.textContent = `${playRound(playerSelection, computerSelection)}`;
+    score.textContent = `Player ${playerPoints} Computer ${computerPoints}`;
+    //Add new elemennts to DOM
+    container.appendChild(result);
+    container.appendChild(score);
+    //Conditional for picking a winner
+    if (playerPoints === 5 || computerPoints === 5) {
+        if (playerPoints > computerPoints) {
+            score.textContent = `Player scores ${playerPoints} points and 
+            wins the game!`;
+        } else {
+            score.textContent = `Computer scores ${computerPoints} 
+            points and wins the game!`;
+        }
+        //Score reset
+        playerPoints = 0;
+        computerPoints = 0;
+    }
 }
-//Initialize game
-game();
