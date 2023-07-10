@@ -68,24 +68,18 @@ let playerScore = 0;
 let computerScore = 0;
 //Loop over the game five times
 function game() {
-    for (let i = 1; i <= 5; i++) {
-        //Make the user choose from the selected values
-        let playerInput = prompt("Please pick Rock, Paper, or Scissors: ");
-        //Convert to lowerCase for insensitivity
-        let playerSelection = playerInput.toLowerCase();
-        //Get computer choice
-        let computerSelection = getComputerChoice();
-        //Invoke playRound function and get results
-        console.log(playRound(playerSelection, computerSelection));
-    }
-    //Determine who is the winner
-    if (playerScore > computerScore) {
-        console.log(`You won!\nPlayer: ${playerScore}\nComputer: ${computerScore}`);
-    } else if (computerScore > playerScore) {
-        console.log(`You lost!\nComputer: ${computerScore}\nPlayer: ${playerScore}`);
-    } else {
-        console.log("Tied!");
-    }
+    //Make the user choose from the selected values
+    let playerInput = prompt("Please pick Rock, Paper, or Scissors: ");
+    //Convert to lowerCase for insensitivity
+    let playerSelection = playerInput.toLowerCase();
+    //Get computer choice
+    let computerSelection = getComputerChoice();
+    //Invoke playRound function and get results
+
+    const div = document.createElement('div')
+    div.setAttribute('style', 'background-color: pink; color: white;');
+    document.appendChild(div);
+    div.textContent = 'playRound(playerSelection, computerSelection)';
 }
 //Initialize game
 game();
