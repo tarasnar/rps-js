@@ -1,4 +1,4 @@
-//Get nodelist of all buttons present
+//Get node list of all buttons present
 let buttons =
     document.querySelectorAll('button');
 //Create a variable for player choice to use in the future
@@ -16,7 +16,7 @@ buttons.forEach((button) => {
             playerSelection = 'scissors';
         }
         game();
-    })
+    });
 });
 
 //Make computer choose from selected values
@@ -29,13 +29,12 @@ function getComputerChoice() {
     switch(computerChoice) {
         case 1:
             return "rock";
-            break;
+
         case 2:
             return "paper";
-            break;
+
         case 3:
             return "scissors";
-            break;
     }
 }
 //Create a function to play single round between computer and user
@@ -46,11 +45,10 @@ function playRound(playerSelection, computerSelection) {
             case "paper":
                 computerPoints++;
                 return "You lose! Paper beats Rock";
-                break;
+
             case "scissors":
                 playerPoints++
                 return "You win! Rock beats Scissors";
-                break;
 
             default:
                 return "Tie";
@@ -60,11 +58,10 @@ function playRound(playerSelection, computerSelection) {
             case "rock":
                 playerPoints++
                 return "You win! Paper beats Rock";
-                break;
+
             case "scissors":
                 computerPoints++;
                 return "You lose! Scissors beat Paper"
-                break;
 
             default:
                 return "Tie";
@@ -74,11 +71,10 @@ function playRound(playerSelection, computerSelection) {
             case "rock":
                 computerPoints++;
                 return "You lose! Rock beats Scissors"
-                break;
+
             case "paper":
                 playerPoints++
                 return "You win! Scissors beat Paper"
-                break;
 
             default:
                 return "Tie";
@@ -103,11 +99,15 @@ function game() {
     //Update new elements with game results
     result.textContent = `${playRound(playerSelection, computerSelection)}`;
     score.textContent = `Player ${playerPoints} Computer ${computerPoints}`;
-    //Add new elemennts to DOM
+    //Add new elements to DOM
     container.appendChild(result);
     container.appendChild(score);
     //Conditional for picking a winner
     if (playerPoints === 5 || computerPoints === 5) {
+        // Disable all choice buttons while displaying result
+        buttons.forEach((button) => {
+            button.disabled = true;
+        });
         if (playerPoints > computerPoints) {
             score.textContent = `Player scores ${playerPoints} points and 
             wins the game!`;
@@ -118,5 +118,19 @@ function game() {
         //Score reset
         playerPoints = 0;
         computerPoints = 0;
+        //Create button for game restart
+        const button = document.createElement('button');
+        button.textContent = 'Restart';
+        //Add event listener to Restart button
+        button.addEventListener('click', () => {
+            //Clear all elements added to container previously
+            container.replaceChildren();
+            //Enable choice buttons
+            buttons.forEach((button) => {
+                button.disabled = false;
+            });
+        });
+        //Add restart button to DOM
+        container.appendChild(button);
     }
 }
